@@ -1,7 +1,7 @@
 $(function () {
     var game = {
-        questions: ["What colos is the sky?", "What planet do we leave in?", "How many fingers do I have?","What do you write with?"],
-        wrongAnswers: ["green,red,purple", "Jupiter,Mars,Saturn", "17,12,6","paper,mouse,other Wrong"],
+        questions: ["What color is the sky?", "What planet do we live in?", "How many fingers do I have?","What do you write with?"],
+        wrongAnswers: ["Green,Red,Purple", "Jupiter,Mars,Saturn", "17,12,6","Paper,Mouse,Screen"],
         rightAnswers: ["Blue", "Earth", "10","Pen"]
     }
 
@@ -13,6 +13,7 @@ $(function () {
     $("#newGame").on("click", start)
     function start() {
         if (!running) {
+            $("#newGame").hide()
             intervalVal = setInterval(decereaseTime, 1000)
             $("#timer").text("10")
             showQuestion(currentQuestion)
@@ -22,6 +23,7 @@ $(function () {
 
     function decereaseTime() {
         time--
+        console.log(game.rightAnswers[currentQuestion])
         if (time === 0) {
             clearInterval(intervalVal);
             running = false;
@@ -31,7 +33,7 @@ $(function () {
                 $("#questions").text(game.rightAnswers[currentQuestion])
                 setTimeout(start, 2000)
                 time = 5
-                currentQuestion--
+                console.log("Decreasing current question one " +currentQuestion--)
             }
             else {
                 //game over
@@ -39,40 +41,41 @@ $(function () {
                 gameOver()
                 clearQuestion()
             }
-        }
-        else if (time >= 1) {
+        } 
+        else if(time >= 1) {
             //checking for click goes here
-            console.log("playing")
+            
             $(".choice").on("click", function(){
-                
-                var ans = $(this).attr("answer")
-                console.log(ans)
-                if (ans === game.rightAnswers[currentQuestion])
+                var ans = ""
+                ans = $(this).attr("answer")
+                console.log("Chosen Answer: " + ans)
+                console.log("Right Answer: " + game.rightAnswers[currentQuestion])
+                if (ans === game.rightAnswers[currentQuestion] || ans != "")
                 {
                     $("#answers").text("yes you're right")
                     clearInterval(intervalVal);
                     running = false
                     time = 5
 
-                    if(currentQuestion >= 1)
-                    currentQuestion--
+                    if (currentQuestion >= 1) 
+                    console.log("Decreasing current question: two "+currentQuestion--)
                     else{
                         gameOver()
                     }
                     setTimeout(start, 2000)
                 }
-                else{
-                    // $("#answers").text("Sorry you're wrong")
-                    // clearInterval(intervalVal);
-                    // running = false
-                    // time = 5
+                else if (ans != game.rightAnswers[currentQuestion] || ans != ""){
+                    $("#answers").text("Sorry you're wrong")
+                    clearInterval(intervalVal);
+                    running = false
+                    time = 5
 
-                    // if(currentQuestion >= 1)
-                    // currentQuestion--
-                    // else{
-                    //     gameOver()
-                    // }
-                    // setTimeout(start, 2000)
+                    if(currentQuestion >= 1)
+                       console.log("Decreasing current question: three " + currentQuestion--)
+                    else{
+                        gameOver()
+                    }
+                    setTimeout(start, 2000)
                 }
                 
             })
@@ -120,7 +123,7 @@ $(function () {
     function gameOver()
     {   
         // running = false;
-        // clearInterval(intervalVal)
+        clearInterval(intervalVal)
         // console.log("game over was called")
     }
 })
