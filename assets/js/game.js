@@ -39,8 +39,7 @@ $(function () {
                 clearInterval(intervalVal)
                 timer = 5
                 console.log("question was unanerewd")
-                showRightorWrong("Unanswered ")
-                //start()
+                showRightorWrong("Unanswered")
             }
         }
     }
@@ -57,15 +56,20 @@ $(function () {
         $("#answers").empty()
         $("#timer").empty()
         setTimeout(start, 4000)
-        $("#questions").text("You Anwered: " + userChoiceArg)
+        // $("#questions").text("You Anwered: " + userChoiceArg)
         // $("#answers").text("The right answer")
         if (userChoiceArg != rightAnswers[questions.length])
         {
-            console.log("The right asnwer was " + rightAnswers[questions.length])
+            if(userChoiceArg === "Unanswered")
+            {
+                $("#questions").text("You're out of time. The right asnwer was " + rightAnswers[questions.length])
+            }
+            else
+            $("#questions").text("The right asnwer was " + rightAnswers[questions.length])
         }
         else if (userChoiceArg === rightAnswers[questions.length])
         {
-            
+            $("#questions").text("You are correct! " + rightAnswers[questions.length]+" was right!")
         }
         
         userChice = ""
