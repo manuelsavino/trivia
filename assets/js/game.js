@@ -39,11 +39,10 @@ $(function () {
                 clearInterval(intervalVal)
                 timer = 5
                 console.log("question was unanerewd")
-                showRightorWrong()
+                showRightorWrong("Unanswered ")
                 //start()
             }
         }
-
     }
 
     function reset() {
@@ -52,13 +51,24 @@ $(function () {
         rightAnswers = ["Blue", "Earth", "10", "Pen"]
     }
 
-    function showRightorWrong(userChoice)
+    function showRightorWrong(userChoiceArg)
     {
         $("#questions").empty()
         $("#answers").empty()
         $("#timer").empty()
         setTimeout(start, 4000)
-        $("#questions").text("You Anwered: " + userChoice)
+        $("#questions").text("You Anwered: " + userChoiceArg)
+        // $("#answers").text("The right answer")
+        if (userChoiceArg != rightAnswers[questions.length])
+        {
+            console.log("The right asnwer was " + rightAnswers[questions.length])
+        }
+        else if (userChoiceArg === rightAnswers[questions.length])
+        {
+            
+        }
+        
+        userChice = ""
 
 
     }
@@ -101,26 +111,26 @@ $(function () {
         clearInterval(intervalVal)
 
         if (userChoice === currentCorrect) {
-            console.log("You answered right")
+            // console.log("You answered right")
             if ((questions.length) === 0) {
+                //No more questions
                 console.log("Clearning Interval")
                 clearInterval(intervalVal)
             }
             else {
                 timer = 5
-                console.log("here, ressting timer from right asnwer")
             }
 
         }
         else {
-            console.log("You answered wrong")
+            // console.log("You answered wrong")
             if ((questions.length) === 0) {
+                //No more questions
                 console.log("Clearning Interval")
                 clearInterval(intervalVal)
             }
             else {
                 timer = 5
-                console.log("here, ressting timer from wrong asnwer")
             }
         }
 
