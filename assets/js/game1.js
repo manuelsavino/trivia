@@ -46,10 +46,33 @@ $(function () {
             $(".choice").on("click", function(){
                 
                 var ans = $(this).attr("answer")
-                
+                console.log(ans)
                 if (ans === game.rightAnswers[currentQuestion])
                 {
-                    $("#answers").append("yes you're right")
+                    $("#answers").text("yes you're right")
+                    clearInterval(intervalVal);
+                    running = false
+                    time = 5
+
+                    if(currentQuestion >= 1)
+                    currentQuestion--
+                    else{
+                        gameOver()
+                    }
+                    setTimeout(start, 2000)
+                }
+                else{
+                    // $("#answers").text("Sorry you're wrong")
+                    // clearInterval(intervalVal);
+                    // running = false
+                    // time = 5
+
+                    // if(currentQuestion >= 1)
+                    // currentQuestion--
+                    // else{
+                    //     gameOver()
+                    // }
+                    // setTimeout(start, 2000)
                 }
                 
             })
@@ -72,7 +95,7 @@ $(function () {
         var options = game.wrongAnswers[val].split(",")
         var allOptions = [correctAnswer];
         options.forEach(function (element) {
-            allOptions.push("<button class='btn btn-primary d-block choice' answer='" + game.rightAnswers[val] + "'>" + element + "</button>")
+            allOptions.push("<button class='btn btn-primary d-block choice' answer='" + element + "'>" + element + "</button>")
         })
 
         //Shuffle the order of the answers
@@ -95,8 +118,9 @@ $(function () {
     }
 
     function gameOver()
-    {
-        time = 5
-        currentQuestion = game.questions.length - 1;
+    {   
+        // running = false;
+        // clearInterval(intervalVal)
+        // console.log("game over was called")
     }
 })
