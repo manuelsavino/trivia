@@ -1,7 +1,7 @@
 var questions = []
 var wrongAnswers = []
 var rightAnswers = []
-var timer = 5;
+var timer;
 var right = 0
 var wrong = 0
 var unanswered = 0
