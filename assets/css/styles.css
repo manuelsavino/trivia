@@ -2,23 +2,16 @@
   width: 100%;
   height: 100%;
   background-color:black;
-  background-image: url("http://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/NASA_logo.svg/1237px-NASA_logo.svg.png");
-  background-repeat: no-repeat;
-  background-size: 20%;
-  background-position: 50% 50%;
 }
 
 .container{
 
-    width: 100;
-    height: 100%;
     position: fixed;
+    z-index: 1;
     left: 50%;
     transform: translate(-50%, 0);
     
 }
-
-
 
 .jumbotron {
    background: rgba(0, 0, 0, 0.5); 
@@ -28,6 +21,40 @@
 
 #questions
 {
+  color: #009688;
+  font-weight: bold;
+}
+
+#message{
+  color: #FF9800;
+  font-weight: bold;  
+}
+
+.answers
+{
+  color: white;
+  size: 1.3em;
+}
+
+.answers:hover{
+  color: crimson; 
+  cursor: pointer;
+}
+
+#timer{
   color: white;
 }
+
+.btn-huge{
+    padding: 25px 30px;
+    font-size: 1.2em;
+    display: block;
+    margin: 25px auto;
+}
+
+.container > img {
+  margin-top: 20px;
+  width: 300px;
+}
+
 

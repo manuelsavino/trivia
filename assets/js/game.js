@@ -18,6 +18,8 @@ $(function () {
     })
 
     function start() {
+        $("#message").empty()
+        $("#logo").css("width", "175px")
         if (questions.length > 0) {
             intervalVal = setInterval(decreaseTime, 1000)
             showQuestion()
@@ -46,12 +48,12 @@ $(function () {
 
     function reset() {
         questions = [
-        "6. What does N. A. S. A. stand for?", 
-        "5. Who invented computer microprocessors/ software?", 
-        "4. Which of these things did N. A. S. A. invent?", 
-        "3. Which of these items were needed to make a cell phone derived from N. A. S. A. technologies?", 
-        "2. Which two car items were created by N. A. S. A. ?", 
-        "1. Which household item was developed because of N. A. S. A. technologies?"];
+        "What does NASA stand for?", 
+        "Who invented computer microprocessors/ software?", 
+        "Which of these things did N. A. S. A. invent?", 
+        "Which of these items were needed to make a cell phone derived from N. A. S. A. technologies?", 
+        "Which two car items were created by N. A. S. A. ?", 
+        "Which household item was developed because of N. A. S. A. technologies?"];
         
         wrongAnswers = [
         "National Association for Space Acrobates,National Administration of Space Aeronautics,National Amazing Space Adventures",
@@ -63,10 +65,10 @@ $(function () {
         ]
         rightAnswers = [
         "National Aeronautics and Space Administration", 
-        "N. a. s. a.",
+        "NASA",
         "Flashdrives", 
-        "LED (the back light)",
-        "Goodyear long tread life tires and Thermacool (anti-freeze)",
+        "LED",
+        "Goodyear long tread life tires and Thermacool",
         "Hand-held cordless vacuum"]
         wrong = 0
         right = 0
@@ -84,14 +86,14 @@ $(function () {
         if (userChoiceArg != rightAnswers[questions.length]) {
             if (userChoiceArg === "Unanswered") {
                 unanswered++
-                $("#questions").text("You're out of time. The right answer was " + rightAnswers[questions.length])
+                $("#message").text("You're out of time. The right answer was " + rightAnswers[questions.length])
                 if (questions.length === 0) {
                     setTimeout(function () { showResults(wrong, right, unanswered) }, 4000)
                 }
             }
             else {
                 wrong++
-                $("#questions").text("The right answer was " + rightAnswers[questions.length])
+                $("#message").text("The right answer was " + rightAnswers[questions.length])
                 if (questions.length === 0) {
                     setTimeout(function () { showResults(wrong, right, unanswered) }, 4000)
                 }
@@ -99,7 +101,7 @@ $(function () {
         }
         else if (userChoiceArg === rightAnswers[questions.length]) {
             right++
-            $("#questions").text("You are correct! " + rightAnswers[questions.length] + " was right!")
+            $("#message").text("You are correct! " + rightAnswers[questions.length] + " was right!")
             if (questions.length === 0) {
                 setTimeout(function () { showResults(wrong, right, unanswered) }, 4000)
             }
@@ -113,19 +115,30 @@ $(function () {
             $("#questions").text(questions.pop())
             var currentWrong = wrongAnswers.pop();
 
-            var correctAnswer = $("<button>")
+            var correctAnswer = $("<h1>")
             var allOptions = [];
             correctAnswer.attr({
-                class: "btn btn-primary d-block choice",
+                class: "answers choice",
                 answer: rightAnswers[questions.length]
             })
             allOptions.push(correctAnswer.append(rightAnswers[questions.length]))
 
+            // var options = currentWrong.split(",")
+            // options.forEach(function (element) {
+            //     var but = $("<button>")
+            //     but.attr({
+            //         class: "btn btn-primary d-block choice",
+            //         answer: element
+            //     })
+            //     but.append(element)
+            //     allOptions.push(but)
+
+            // })
             var options = currentWrong.split(",")
             options.forEach(function (element) {
-                var but = $("<button>")
+                var but = $("<h1>")
                 but.attr({
-                    class: "btn btn-primary d-block choice",
+                    class: "answers choice",
                     answer: element
                 })
                 but.append(element)
@@ -142,6 +155,15 @@ $(function () {
 
             //Clear answers and fil in new set for new quetion
             $("#answers").empty()
+            // for(i = 0; i < allOptions.length; i++)
+            // { 
+            //     var choice =String.fromCharCode(65 + i)
+            //     var choiceText = allOptions[i]
+            //     // $("#answers").append()   
+            //     $("#answers").append(choice+" "+choiceText.html())   
+
+            //     // console.log(i)
+            // }
             allOptions.forEach(function (element)
             {
                 $("#answers").append(element)
