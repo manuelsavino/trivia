@@ -1,7 +1,10 @@
-var questions = ["4. What color is the sky?", "3. What planet do we live in?", "2. How many fingers do I have?", "1. What do you write with?"];
-var wrongAnswers = ["Green,Red,Purple", "Jupiter,Mars,Saturn", "17,12,6", "Paper,Mouse,Screen"]
-var rightAnswers = ["Blue", "Earth", "10", "Pen"]
+var questions = []
+var wrongAnswers = []
+var rightAnswers = []
 var timer = 5;
+var right = 0
+var wrong = 0
+var unanswered = 0
 var intervalVal;
 var currentCorrect;
 var userChoice;
@@ -9,6 +12,7 @@ var userChoice;
 
 $(function () {
     $("#newGame").on("click", function () {
+        reset()
         start();
         $(this).hide();
     })
@@ -18,13 +22,11 @@ $(function () {
             intervalVal = setInterval(decreaseTime, 1000)
             showQuestion()
         }
-        $(".choice").on("click", checkAnswer)
+        $(".choice").on("click", tandQControl)
     }
 
     function decreaseTime() {
-        console.log(timer)
         $("#timer").text(timer)
-        // console.log("Questions array index: " + (questions.length - 1))
         if (timer >= 1) {
             timer--
         }
@@ -32,13 +34,11 @@ $(function () {
             if (questions.length === 0) {
                 clearInterval(intervalVal)
                 //No more questions
-                console.log("here")
-
+                showRightorWrong("Unanswered")
             }
             else {
                 clearInterval(intervalVal)
                 timer = 5
-                console.log("question was unanerewd")
                 showRightorWrong("Unanswered")
             }
         }
@@ -48,33 +48,43 @@ $(function () {
         questions = ["4. What color is the sky?", "3. What planet do we live in?", "2. How many fingers do I have?", "1. What do you write with?"];
         wrongAnswers = ["Green,Red,Purple", "Jupiter,Mars,Saturn", "17,12,6", "Paper,Mouse,Screen"]
         rightAnswers = ["Blue", "Earth", "10", "Pen"]
+        wrong = 0
+        right = 0
+        unanswered = 0
+        timer = 5;
     }
 
-    function showRightorWrong(userChoiceArg)
-    {
+    function showRightorWrong(userChoiceArg) {
         $("#questions").empty()
         $("#answers").empty()
         $("#timer").empty()
         setTimeout(start, 4000)
         // $("#questions").text("You Anwered: " + userChoiceArg)
         // $("#answers").text("The right answer")
-        if (userChoiceArg != rightAnswers[questions.length])
-        {
-            if(userChoiceArg === "Unanswered")
-            {
-                $("#questions").text("You're out of time. The right asnwer was " + rightAnswers[questions.length])
+        if (userChoiceArg != rightAnswers[questions.length]) {
+            if (userChoiceArg === "Unanswered") {
+                unanswered++
+                $("#questions").text("You're out of time. The right answer was " + rightAnswers[questions.length])
+                if (questions.length === 0) {
+                    setTimeout(function () { showResults(wrong, right, unanswered) }, 4000)
+                }
             }
-            else
-            $("#questions").text("The right asnwer was " + rightAnswers[questions.length])
+            else {
+                wrong++
+                $("#questions").text("The right answer was " + rightAnswers[questions.length])
+                if (questions.length === 0) {
+                    setTimeout(function () { showResults(wrong, right, unanswered) }, 4000)
+                }
+            }
         }
-        else if (userChoiceArg === rightAnswers[questions.length])
-        {
-            $("#questions").text("You are correct! " + rightAnswers[questions.length]+" was right!")
+        else if (userChoiceArg === rightAnswers[questions.length]) {
+            right++
+            $("#questions").text("You are correct! " + rightAnswers[questions.length] + " was right!")
+            if (questions.length === 0) {
+                setTimeout(function () { showResults(wrong, right, unanswered) }, 4000)
+            }
         }
-        
         userChice = ""
-
-
     }
 
 
@@ -87,13 +97,10 @@ $(function () {
             var currentWrong = wrongAnswers.pop();
             var correctAnswer = "<button class='btn btn-primary d-block choice' answer='" + currentCorrect + "'>" + currentCorrect + "</button>"
             var options = currentWrong.split(",")
-
-
             var allOptions = [correctAnswer]
             options.forEach(function (element) {
                 allOptions.push("<button class='btn btn-primary d-block choice' answer='" + element + "'>" + element + "</button>")
             })
-
             for (var i = allOptions.length - 1; i > 0; i--) {
                 var j = Math.floor(Math.random() * (i + 1));
                 var temp = allOptions[i];
@@ -105,43 +112,28 @@ $(function () {
             for (i = 0; i < allOptions.length; i++) {
                 $("#answers").append(allOptions[i])
             }
-
         }
     }
 
-    function checkAnswer() {
+    function tandQControl() {
         userChoice = $(this).attr("answer")
-        console.log(userChoice)
         clearInterval(intervalVal)
-
-        if (userChoice === currentCorrect) {
-            // console.log("You answered right")
-            if ((questions.length) === 0) {
-                //No more questions
-                console.log("Clearning Interval")
-                clearInterval(intervalVal)
-            }
-            else {
-                timer = 5
-            }
-
+        if ((questions.length) === 0) {
+            //No more questions
+            clearInterval(intervalVal)
+            setTimeout(function () { showRightorWrong(userChoice) }, 100)
         }
         else {
-            // console.log("You answered wrong")
-            if ((questions.length) === 0) {
-                //No more questions
-                console.log("Clearning Interval")
-                clearInterval(intervalVal)
-            }
-            else {
-                timer = 5
-            }
+            timer = 5
         }
-
-        console.log("got to the end")
-        setTimeout(function(){showRightorWrong(userChoice)}, 100)
-
+        if (questions.length != 0)
+            setTimeout(function () { showRightorWrong(userChoice) }, 100)
     }
 
+    function showResults(wrong, right, unanswered) {
+        $("#questions").empty()
+        $("#questions").text("Wrong: " + wrong + " " + "Right: " + right + " " + "Unasnwered " + unanswered)
+        $("#newGame").show()
+    }
 })//ends jquery ready function
 
