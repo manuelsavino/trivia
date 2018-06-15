@@ -45,9 +45,29 @@ $(function () {
     }
 
     function reset() {
-        questions = ["4. What color is the sky?", "3. What planet do we live in?", "2. How many fingers do I have?", "1. What do you write with?"];
-        wrongAnswers = ["Green,Red,Purple", "Jupiter,Mars,Saturn", "17,12,6", "Paper,Mouse,Screen"]
-        rightAnswers = ["Blue", "Earth", "10", "Pen"]
+        questions = [
+        "6. What does N. A. S. A. stand for?", 
+        "5. Who invented computer microprocessors/ software?", 
+        "4. Which of these things did N. A. S. A. invent?", 
+        "3. Which of these items were needed to make a cell phone derived from N. A. S. A. technologies?", 
+        "2. Which two car items were created by N. A. S. A. ?", 
+        "1. Which household item was developed because of N. A. S. A. technologies?"];
+        
+        wrongAnswers = [
+        "National Association for Space Acrobates,National Administration of Space Aeronautics,National Amazing Space Adventures",
+        "Steve Jobs,Bill Gates,Some guy who's name has been forgotten.",
+        "Oxygen tanks,Velcro,The telephone",
+        "Speakers,Memory cards,Screens",
+        "Engines and air conditioning,Stereos and motor powered windows,Nothing",
+        "Blender,Microwave,Toilets",
+        ]
+        rightAnswers = [
+        "National Aeronautics and Space Administration", 
+        "N. a. s. a.",
+        "Flashdrives", 
+        "LED (the back light)",
+        "Goodyear long tread life tires and Thermacool (anti-freeze)",
+        "Hand-held cordless vacuum"]
         wrong = 0
         right = 0
         unanswered = 0
@@ -91,27 +111,41 @@ $(function () {
     function showQuestion() {
         if (questions.length > 0 && rightAnswers.length > 0 && wrongAnswers.length > 0) {
             $("#questions").text(questions.pop())
-            //Questions.lenght works here because we are popping on line above reducing its value
-            //currentCorrect = rightAnswers.pop() in case we dont want to tell them what was right and wronh at the end, but just a count
-            currentCorrect = rightAnswers[questions.length];
             var currentWrong = wrongAnswers.pop();
-            var correctAnswer = "<button class='btn btn-primary d-block choice' answer='" + currentCorrect + "'>" + currentCorrect + "</button>"
-            var options = currentWrong.split(",")
-            var allOptions = [correctAnswer]
-            options.forEach(function (element) {
-                allOptions.push("<button class='btn btn-primary d-block choice' answer='" + element + "'>" + element + "</button>")
+
+            var correctAnswer = $("<button>")
+            var allOptions = [];
+            correctAnswer.attr({
+                class: "btn btn-primary d-block choice",
+                answer: rightAnswers[questions.length]
             })
+            allOptions.push(correctAnswer.append(rightAnswers[questions.length]))
+
+            var options = currentWrong.split(",")
+            options.forEach(function (element) {
+                var but = $("<button>")
+                but.attr({
+                    class: "btn btn-primary d-block choice",
+                    answer: element
+                })
+                but.append(element)
+                allOptions.push(but)
+
+            })
+            //Randomize order of answers
             for (var i = allOptions.length - 1; i > 0; i--) {
                 var j = Math.floor(Math.random() * (i + 1));
                 var temp = allOptions[i];
                 allOptions[i] = allOptions[j];
                 allOptions[j] = temp;
             }
+
             //Clear answers and fil in new set for new quetion
             $("#answers").empty()
-            for (i = 0; i < allOptions.length; i++) {
-                $("#answers").append(allOptions[i])
-            }
+            allOptions.forEach(function (element)
+            {
+                $("#answers").append(element)
+            })
         }
     }
 
