@@ -19,7 +19,8 @@ $(function () {
 
     function start() {
         $("#message").empty()
-        $("#logo").css("width", "175px")
+        $("#logo").animate(
+            {"width": "175px"},1000)
         if (questions.length > 0) {
             intervalVal = setInterval(decreaseTime, 1000)
             showQuestion()
@@ -122,18 +123,6 @@ $(function () {
                 answer: rightAnswers[questions.length]
             })
             allOptions.push(correctAnswer.append(rightAnswers[questions.length]))
-
-            // var options = currentWrong.split(",")
-            // options.forEach(function (element) {
-            //     var but = $("<button>")
-            //     but.attr({
-            //         class: "btn btn-primary d-block choice",
-            //         answer: element
-            //     })
-            //     but.append(element)
-            //     allOptions.push(but)
-
-            // })
             var options = currentWrong.split(",")
             options.forEach(function (element) {
                 var but = $("<h1>")
