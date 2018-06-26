@@ -41,7 +41,7 @@ $(function () {
             }
             else {
                 clearInterval(intervalVal)
-                timer = 5
+                timer = 15
                 showRightorWrong("Unanswered")
             }
         }
@@ -74,7 +74,7 @@ $(function () {
         wrong = 0
         right = 0
         unanswered = 0
-        timer = 5;
+        timer = 15;
     }
 
     function showRightorWrong(userChoiceArg) {
@@ -169,7 +169,7 @@ $(function () {
             setTimeout(function () { showRightorWrong(userChoice) }, 100)
         }
         else {
-            timer = 5
+            timer = 15
         }
         if (questions.length != 0)
             setTimeout(function () { showRightorWrong(userChoice) }, 100)
