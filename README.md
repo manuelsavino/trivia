@@ -7,5 +7,5 @@ Purpose of this game is to answer all the questions correctly before the time is
 * CSS
 * ParticlesJS
 
-
+### Preview:
 ![preview of app](https://media.giphy.com/media/5WjfWtGcVqAcheG5zV/giphy.gif)
